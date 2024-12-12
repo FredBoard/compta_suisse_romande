@@ -41,8 +41,8 @@ $col_1_nr          = 8    ;
 $nb_ecritures      = 60   ; // ecritures par page MAX 28 en forme Landscape , apres la mise en page explose.	
 	  
 $pdfr=new \Fpdf\Fpdf('P', 'mm', 'A4'); // attention class modifiee pour ajouter les cercles et rotations
-$pdfr->SetAuthor('frederic.ducommun@reboard.io');
-$pdfr->SetCreator('ducommun.info');
+$pdfr->SetAuthor('toto@rgmail.com');
+$pdfr->SetCreator('git');
 $pdfr->SetFillColor(210);
 $pdfr->SetFont('Arial','',8);		  
 add_page_plan_comptable();
@@ -72,7 +72,6 @@ while ($dat110 = mysqli_fetch_assoc($res110))
   { 
 	  $a++ ;$y_pos = ($y_ldep + ( $a * $y_shift ));$flag_A_P_old =  $flag_A_P_new ;
 	  $pdfr->SetXY(8,$y_pos);	$pdfr->Cell(192,$y_shift,utf8_decode($flag_A_P_new),1,0,'L',$fil);
-	  //echo '<br><b>'.$fil.'   * '.$flag_A_P_new.'</b>' ;
   } 
 	
   if ( $flag_grp_new <> $flag_grp_old )
@@ -82,7 +81,6 @@ while ($dat110 = mysqli_fetch_assoc($res110))
 	   $a = $a + 0.5 ;
 	   $a++ ;$y_pos = ($y_ldep + ( $a * $y_shift ));$flag_grp_old =  $flag_grp_new ;
 	   $pdfr->SetXY(28,$y_pos);	$pdfr->Cell(172,$y_shift,utf8_decode($flag_grp_new),1,0,'L',$fil);
-	   echo '<br><b>**'.$flag_grp_new.'</b>' ;
 	  }
   } 	
   
@@ -93,23 +91,22 @@ while ($dat110 = mysqli_fetch_assoc($res110))
 	   $a = $a + 0.5 ;
 	   $a++ ;$y_pos = ($y_ldep + ( $a * $y_shift ));$flag_cat_old =  $flag_cat_new ;
 	   $pdfr->SetXY(48,$y_pos);	$pdfr->Cell(152,$y_shift,utf8_decode($flag_cat_new),1,0,'L',$fil);
-	   echo '<br><b>***'.$flag_cat_new.'</b>';
 	  }
   }
   
 	$a++ ;$y_pos = ($y_ldep + ( $a * $y_shift ));
 	//echo '<br>****'.$dat110['id_compta'].' => '.$compte.'  ' ;
 	if ( check_id_compta($dat110['id_compta'])  ) {
-	$pdfr->SetFont('Arial', 'B', 8);	
-	$pdfr->SetXY(48,$y_pos);	$pdfr->Cell(10,$y_shift,utf8_decode($dat110['id_compta']),0,0,'C',false);
-    $pdfr->SetXY(60,$y_pos);	$pdfr->Cell(130,$y_shift,utf8_decode($compte),0,0,'L',false);
+	 $pdfr->SetFont('Arial', 'B', 8);	
+	 $pdfr->SetXY(48,$y_pos);	$pdfr->Cell(10,$y_shift,utf8_decode($dat110['id_compta']),0,0,'C',false);
+         $pdfr->SetXY(60,$y_pos);	$pdfr->Cell(130,$y_shift,utf8_decode($compte),0,0,'L',false);
 	}
 	else
 	{
-	$pdfr->SetXY(48,$y_pos);	$pdfr->Cell(10,$y_shift,utf8_decode($dat110['id_compta']),0,0,'C',false);
-    $pdfr->SetXY(60,$y_pos);	$pdfr->Cell(130,$y_shift,utf8_decode($compte),0,0,'L',false);	
+	 $pdfr->SetXY(48,$y_pos);	$pdfr->Cell(10,$y_shift,utf8_decode($dat110['id_compta']),0,0,'C',false);
+         $pdfr->SetXY(60,$y_pos);	$pdfr->Cell(130,$y_shift,utf8_decode($compte),0,0,'L',false);	
 	}
-    $pdfr->SetFont('Arial', '', 8);	
+        $pdfr->SetFont('Arial', '', 8);	
 			
  
   if ( $a >= $nb_ecritures  ) 
@@ -120,35 +117,7 @@ while ($dat110 = mysqli_fetch_assoc($res110))
 }	  
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-	  
-/////////////////////////////////////////////////////////////
-	
-/*	  
-$a++ ; $a++ ;	  
-$sql111  = 'SELECT * FROM  r_plan_comptable WHERE 1= 1 ' ;
-$sql111 .= 'AND BID = '.$BID.' AND id_compta > 3000  ';
-$sql111 .= 'order by id_compta ' ;	
-$con111  = mysqli_connect(SQLServer,GAR_user,GAR_pwd,GAR_db); $res111 = mysqli_query($con111, $sql111);  
-$a++ ;$y_pos = ($y_ldep + ( $a * $y_shift ));	  
-$pdfr->SetXY(8,$y_pos);	$pdfr->Cell(192,$y_shift,utf8_decode('Comptes de résultats'),1,0,'L',false);
-// echo '<br> 109 => '.$sql111.'  ' ;	
-	  
-while ($dat111 = mysqli_fetch_assoc($res111)) 
-{
-  //echo '<br>****'.$dat111['id_compta'].' => '.$compte.'  ' ;
-  $compte   = utf8_encode($dat111['compte']) ;	 
-  $a++ ;$y_pos = ($y_ldep + ( $a * $y_shift ));
-  $pdfr->SetXY(48,$y_pos);	$pdfr->Cell(10,$y_shift,utf8_decode($dat111['id_compta']),0,0,'C',false);
-  $pdfr->SetXY(60,$y_pos);	$pdfr->Cell(130,$y_shift,utf8_decode($compte),0,0,'L',false);	
 
- if ( $a >= $nb_ecritures  ) 
-   {
-	$flag_resultat_old="";	
-    add_page_plan_comptable(); $a = 0 ;
-   } else { $pdfr->SetXY($x_col_dep,$y_ldep) ; $pdfr->Line (8   ,$y_ldep +$y_shift  , 200 ,$y_ldep+$y_shift);}  
-} 	  
-
-*/ 
 $pdfr->close();	  
 	  
 ////////////////////////////////////////////////////////////////////////////////////////////////////	  
@@ -158,14 +127,14 @@ echo '<br>'.$pdf_journal.' ';
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////	  
+
 function add_page_plan_comptable()
 {
 global $nb_de_page_totales,$pdfr,$page,$font,$x_col_dep,$y_ldep,$col_1_nr,$y_shift,$rep_r,$rep_d,$page,$y_ldep,$year ;
 $pdfr->AddPage();	  
 $page++ ;
 $pdfr->SetXY(8,8);  $pdfr->Cell(0,4,utf8_decode('Reboard Sàrl'),0,0,'L');
-$pdfr->SetXY(8,12); $pdfr->Cell(0,4,utf8_decode('CHE-464.402.219 IDE'),0,0,'L');	
-//$pdfr->SetXY(5,16); $pdfr->Cell(0,4,utf8_decode('Frédéric Ducommun-dit-Verron'),0,0,'L');	
+$pdfr->SetXY(8,12); $pdfr->Cell(0,4,utf8_decode('CHE-464.402.219 IDE'),0,0,'L');		
 $pdfr->SetXY(8,16); $pdfr->Cell(0,4,utf8_decode('Rue de l\'arsenal 25'),0,0,'L');	
 $pdfr->SetXY(8,20); $pdfr->Cell(0,4,utf8_decode('2502 Bienne'),0,0,'L');
 
@@ -173,11 +142,10 @@ $pdfr->SetXY(8,12);  $pdfr->Cell(0,4,'Plan comptable',0,0,'C');
 if ($nb_de_page_totales <> 0) {$pagex=''.$page.'/'.$nb_de_page_totales.'';} else { $pagex=''.$page.'';}	
 $pdfr->SetXY(8,16); $pdfr->Cell(0,4,'page '.$pagex.'',0,0,'C');		
 	
-//$pdfr->SetXY(5,8);  $pdfr->Cell(0,4,'Bienne, le '.date('d.m.Y').'',0,0,'R');
 $pdfr->SetXY(8,8);  $pdfr->Cell(0,4,'Bienne, le 31.12.'.$year.'',0,0,'R');	
 
-$pdfr->SetXY(8,16); $pdfr->Cell(0,4,'frederic.ducommun@reboard.io',0,0,'R');
-$pdfr->SetXY(8,20); $pdfr->Cell(0,4,utf8_decode('079 292 32 06'),0,0,'R');
+$pdfr->SetXY(8,16); $pdfr->Cell(0,4,'toto@gmail.com',0,0,'R');
+$pdfr->SetXY(8,20); $pdfr->Cell(0,4,utf8_decode('079 999 99 99'),0,0,'R');
 	
  if ( $page == 1 )
   {
@@ -198,7 +166,6 @@ $sql120 .= 'AND BID = '.$BID.' AND exercice = \''.$year.'\'  ';
 $sql120 .= 'AND ((compte_credit= '.$id_compta.') OR (compte_debit='.$id_compta.'))' ;	
 $con120   = mysqli_connect(SQLServer,GAR_user,GAR_pwd,GAR_db); $res120 = mysqli_query($con120, $sql120);  
 if (mysqli_num_rows($res120)  <> 0  ) {$used=true;} else {$used=false;}	
-//echo '<br>  '.$sql120.' '.$used.' ';
 return($used);
 }	
 	  
